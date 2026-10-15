@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<!--
+  FULL-STACK DEVELOPER CV — single-file template (HTML + CSS, tiny JS for printing)
+
+  This is the public resume page of the portfolio (linked from index.html).
+  Visitors only see "Download PDF"; open resume.html?edit to show the editing tools.
+
+  HOW TO EDIT
+  - All content lives in the <main class="cv"> block below. Each section starts with
+    a marker comment such as  ===== PROJECTS =====  so it is easy to find.
+  - To add a job / project / degree: copy an entire <article class="entry"> ... </article>
+    block and paste it right after the existing one.
+  - Change colors and fonts in the :root variables at the top of <style>.
+  - <title> becomes the default PDF file name when you choose "Save as PDF".
+  - Only add numbers (users, %, ms, GPA...) that you can verify and talk about in an interview.
+  - The sample content fills one A4 page. Extra content flows onto page 2, and an entry
+    is never split across pages. On desktop, the white sheet is exactly one A4 page.
+    If you are only slightly over one page, use <main class="cv compact"> for tighter spacing.
+  - You can also click "Edit content" in the browser to type directly on the page.
+    Those edits are saved in that browser only; use "Download HTML" to keep a file copy.
+
+  PRINT / PDF
+  - Click "Print / Save as PDF" (or Ctrl/Cmd + P), choose "Save as PDF", paper A4 and
+    margins "Default". The browser's date/URL header and footer are suppressed automatically.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e3a5f'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='white'%3EHL%3C/text%3E%3C/svg%3E">
+  <title>Hoang Hieu Linh - Full-stack Developer CV</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --navy: #1e3a5f;        /* accent: headings, title, bullets */
+      --navy-dark: #152b47;
+      --ink: #1c2430;         /* strongest text: name, entry titles, labels */
+      --text: #2f3640;        /* body text (dark gray) */
+      --muted: #5b6472;       /* dates, locations, secondary info */
+      --rule: #d9dee5;        /* thin divider lines */
+      --page-bg: #eceff3;     /* gray background around the sheet (screen only) */
+      --font: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      background: var(--page-bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 9pt;
+      line-height: 1.42;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--navy); text-decoration: underline; }
+
+    /* ---------- Toolbar (screen only) ---------- */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      width: 210mm;
+      max-width: calc(100% - 32px);
+      margin: 8px auto 0;
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+      flex-wrap: wrap;
+      background: var(--page-bg);
+    }
+
+    .toolbar-hint { flex: 1 1 240px; font-size: 8.75pt; color: var(--muted); }
+
+    .toolbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .btn {
+      font: 600 9.5pt/1 var(--font);
+      border: 1px solid var(--navy);
+      border-radius: 6px;
+      padding: 9px 14px;
+      cursor: pointer;
+      transition: background-color .15s ease, color .15s ease;
+    }
+    .btn[hidden] { display: none; }
+    .btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+
+    .btn-primary { color: #fff; background: var(--navy); }
+    .btn-primary:hover { background: var(--navy-dark); border-color: var(--navy-dark); }
+
+    .btn-secondary { color: var(--navy); background: #fff; }
+    .btn-secondary:hover { background: #f1f4f8; }
+    .btn-secondary[aria-pressed="true"] { color: #fff; background: var(--navy); }
+    a.btn { display: inline-flex; align-items: center; justify-content: center; }
+    a.btn:hover { text-decoration: none; }
+
+    /* Edit mode: dashed frame + soft highlight on hover (never printed) */
+    @media screen {
+      .cv[contenteditable="true"] { outline: 2px dashed #9fb3cc; outline-offset: 4px; cursor: text; }
+      .cv[contenteditable="true"]:focus { outline-color: var(--navy); }
+      .cv[contenteditable="true"] :is(h1, h2, h3, p, li, dt, dd):hover { background: #f3f6fa; }
+    }
+
+    /* ---------- A4 sheet ---------- */
+    /* Padding = page margins on screen and in print (keep in sync with @media print below) */
+    .cv {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 16px auto 48px;
+      padding: 12mm 15mm;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, .06), 0 10px 30px rgba(16, 24, 40, .08);
+    }
+
+    /* ---------- Header ---------- */
+    .cv-header {
+      padding-bottom: 9pt;
+      border-bottom: 1.5pt solid var(--navy);
+    }
+
+    .cv-name {
+      font-size: 22pt;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .cv-role {
+      margin-top: 2pt;
+      font-size: 12pt;
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .contact {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      row-gap: 2pt;
+      margin-top: 8pt;
+      font-size: 8.75pt;
+      color: var(--muted);
+    }
+    .contact li:not(:last-child)::after {
+      content: "\00B7";
+      margin: 0 6pt;
+      color: #9aa3af;
+    }
+
+    /* ---------- Sections ---------- */
+    .section { margin-top: 10pt; }
+
+    .section-title {
+      margin-bottom: 6pt;
+      padding-bottom: 3pt;
+      border-bottom: 1pt solid var(--rule);
+      font-size: 10pt;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--navy);
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    /* ---------- Technical skills ---------- */
+    .skills {
+      display: grid;
+      grid-template-columns: 9.5em 1fr;
+      gap: 2.5pt 12pt;
+    }
+    .skills dt { font-weight: 600; color: var(--ink); }
+
+    /* ---------- Entries (jobs, projects, education) ---------- */
+    .entry {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .entry + .entry { margin-top: 8pt; }
+
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0 12pt;
+    }
+
+    .entry-title {
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .entry-date {
+      flex-shrink: 0;
+      font-size: 8.5pt;
+      color: var(--muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-sub {
+      margin-top: 1pt;
+      font-size: 8.75pt;
+      color: var(--muted);
+    }
+    .entry-sub a { color: var(--navy); }
+
+    .entry p { margin-top: 2pt; }
+
+    .entry ul {
+      margin-top: 2pt;
+      padding-left: 13pt;
+    }
+    .entry li { margin-top: 2.5pt; padding-left: 2pt; }
+    .entry li::marker { color: var(--navy); }
+
+    .label { font-weight: 600; color: var(--ink); }
+
+    /* Highlighted keywords inside text: <strong>...</strong> */
+    .cv strong { font-weight: 600; color: var(--ink); }
+
+    /* ---------- Compact density ---------- */
+    /* Use <main class="cv compact"> when content runs slightly over one page. */
+    .cv.compact { line-height: 1.33; }
+    .cv.compact .cv-header { padding-bottom: 8pt; }
+    .cv.compact .section { margin-top: 8pt; }
+    .cv.compact .section-title { margin-bottom: 4pt; }
+    .cv.compact .entry + .entry { margin-top: 6pt; }
+    .cv.compact .entry li { margin-top: 1pt; }
+
+    /* ---------- Tablet & phone ---------- */
+    @media screen and (max-width: 840px) {
+      body { font-size: 10.5pt; }
+
+      .toolbar { margin-top: 16px; }
+
+      .cv {
+        width: auto;
+        min-height: 0;
+        margin: 12px 16px 32px;
+        padding: 28px 24px;
+        overflow-wrap: break-word;
+      }
+
+      .contact, .entry-sub, .entry-date { font-size: 9.5pt; }
+    }
+
+    @media screen and (max-width: 560px) {
+      .toolbar { position: static; flex-direction: column; align-items: stretch; }
+      .toolbar-hint { flex: none; }
+      .toolbar-actions .btn { flex: 1 1 40%; padding: 12px 14px; }
+      .toolbar-actions .btn-primary { flex-basis: 100%; }
+
+      .cv { padding: 22px 18px; }
+      .cv-name { font-size: 20pt; }
+
+      .contact { flex-direction: column; }
+      .contact li:not(:last-child)::after { content: none; }
+
+      .skills { grid-template-columns: 1fr; gap: 0; }
+      .skills dd { margin-bottom: 6pt; }
+
+      .entry-head { flex-direction: column; }
+    }
+
+    /* ---------- Print: clean A4, no toolbar, no background/shadow ---------- */
+    /* Page margin 0 leaves the browser no room for its date/URL header and footer;
+       the margins live in .cv padding instead and repeat on every printed page. */
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @media print {
+      html, body { background: #fff; }
+
+      .toolbar { display: none !important; }
+
+      .cv {
+        width: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 12mm 15mm;
+        box-shadow: none;
+        outline: none !important;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+      }
+
+      a:hover { color: inherit; text-decoration: none; }
+
+      .cv-header, .skills { break-inside: avoid; page-break-inside: avoid; }
+      p, li { orphans: 3; widows: 3; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <a class="btn btn-secondary" href="index.html">← Portfolio</a>
+    <p class="toolbar-hint" id="toolbarHint">“Download PDF” opens the print dialog – choose “Save as PDF”.</p>
+    <div class="toolbar-actions">
+      <button type="button" class="btn btn-secondary" id="editBtn" aria-pressed="false" hidden>Edit content</button>
+      <button type="button" class="btn btn-secondary" id="downloadBtn" title="Download a copy of this page including your edits" hidden>Download HTML</button>
+      <button type="button" class="btn btn-secondary" id="resetBtn" hidden>Reset</button>
+      <button type="button" class="btn btn-primary" id="printBtn">Download PDF</button>
+    </div>
+  </div>
+
+  <main class="cv">
+
+    <!-- ===== HEADER: NAME & CONTACT ===== -->
+    <header class="cv-header">
+      <h1 class="cv-name">Hoang Hieu Linh</h1>
+      <p class="cv-role">Junior Full-stack Developer</p>
+      <ul class="contact">
+        <li>Da Nang, Vietnam</li>
+        <li><a href="tel:+84944128089">+84 944 128 089</a></li>
+        <li><a href="mailto:hoanghieulinh362@gmail.com">hoanghieulinh362@gmail.com</a></li>
+        <li><a href="https://github.com/LinhHH10-IT">github.com/LinhHH10-IT</a></li>
+      </ul>
+    </header>
+
+    <!-- ===== PROFESSIONAL SUMMARY ===== -->
+    <section class="section">
+      <h2 class="section-title">Professional Summary</h2>
+      <p>
+        Junior Full-stack Developer focused on <strong>Node.js, TypeScript, and React/Next.js</strong>, building multi-tenant
+        SaaS CRM and payment features with MongoDB, PostgreSQL, and Redis. Comfortable debugging production issues,
+        improving performance, and integrating payment and messaging services.
+      </p>
+    </section>
+
+    <!-- ===== TECHNICAL SKILLS ===== -->
+    <section class="section">
+      <h2 class="section-title">Technical Skills</h2>
+      <dl class="skills">
+        <dt>Core</dt>
+        <dd>TypeScript, JavaScript, Node.js, Express.js, React, Next.js, Tailwind CSS</dd>
+
+        <dt>Databases</dt>
+        <dd>MongoDB (Mongoose), PostgreSQL, Redis, MySQL</dd>
+
+        <dt>Integrations</dt>
+        <dd>REST APIs, Socket.IO, Bull queues, Payload CMS, Keycloak SSO, VietQR, Stripe, webhooks</dd>
+
+        <dt>DevOps &amp; Testing</dt>
+        <dd>Docker, Nginx, GitHub Actions, AWS EC2/S3, SonarCloud, Jest, Vitest, Playwright</dd>
+
+        <dt>Also familiar</dt>
+        <dd>AngularJS, Java (Spring Boot), Python (Django), React Native</dd>
+      </dl>
+    </section>
+
+    <!-- ===== WORK EXPERIENCE ===== -->
+    <section class="section">
+      <h2 class="section-title">Work Experience</h2>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Full Stack Engineer</h3>
+          <span class="entry-date">Mar 2026 – Present</span>
+        </div>
+        <p class="entry-sub">AntBuddy.com · Da Nang, Vietnam</p>
+        <ul>
+          <li><strong>Owned the payment flows</strong> of a Next.js + Payload CMS checkout portal: VietQR and Stripe checkout, wallet top-ups, and idempotent payment webhooks with auto-expiring QR codes.</li>
+          <li>Extended the Django billing service so plans can be <strong>paid from wallet credit with idempotency and refunds</strong>, and showed wallet amounts and order codes in CRM payment history.</li>
+          <li><strong>Co-developed multi-tenant access control</strong> with a teammate: organization-level data isolation, dynamic RBAC, and Keycloak SSO with organization claims.</li>
+          <li>Fixed <strong>60+ performance-audit items</strong> across 4 services (MongoDB indexes, N+1 queries, caching, Redis locks); cut dashboard DB round-trips per page load <strong>from 14 to 2</strong>.</li>
+          <li>Built the <strong>onboarding coach-mark feature</strong> for new SaaS users with one teammate: welcome popup, onboarding hub, progress-tracking APIs, and automatic hand-off to Sales.</li>
+          <li>Contributed WhatsApp Business features (Flows in templates, template variables, Embedded Signup) and <strong>SLA-breach ticket automation</strong> to the omnichannel CRM.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Full-stack Developer Intern</h3>
+          <span class="entry-date">Sep 2024 – Dec 2024</span>
+        </div>
+        <p class="entry-sub">FPT Software · Da Nang, Vietnam</p>
+        <ul>
+          <li>Interned as a Java Developer, contributing to backend development and maintenance using <strong>Java and Spring Boot</strong>.</li>
+          <li>Assisted in building user interfaces with <strong>React</strong>.</li>
+          <li>Gained valuable hands-on experience and practical knowledge from my mentor, improving my coding skills, teamwork, and understanding of software development processes following <strong>Agile/Scrum</strong> methodology.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <!-- Optional per project: add a sub line (e.g. Graduation Project · Team of 4 · github link)
+         and a one-sentence description under the title. With several contributions, switch to
+         the template layout: separate Role / Tech Stack lines and a "Key Contributions:" bullet list. -->
+    <section class="section">
+      <h2 class="section-title">Projects</h2>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Smart Gym Management System</h3>
+          <span class="entry-date">Jul 2025 – Dec 2025</span>
+        </div>
+        <p class="entry-sub">Graduation Project · Team of 5 · <a href="https://github.com/SGMS-2025">github.com/SGMS-2025</a></p>
+        <p>A multi-branch gym management platform for owners, staff, personal trainers, and members.</p>
+        <p><span class="label">Role:</span> Full-stack Developer – set up the backend and CI/CD; owned the staff scheduling and KPI modules.</p>
+        <p><span class="label">Tech Stack:</span> Node.js, Express, MongoDB, Socket.IO, Redis, React, TypeScript, Tailwind CSS, Docker</p>
+        <p><span class="label">Key Contributions:</span></p>
+        <ul>
+          <li>Set up the Express + MongoDB backend with JWT authentication, role-based permissions, and Jest tests.</li>
+          <li>Built CI/CD with GitHub Actions, Docker Hub, Nginx behind Cloudflare, and SonarCloud quality checks.</li>
+          <li>Implemented <strong>work shifts, auto-scheduling, and time-off requests</strong> with real-time Socket.IO notifications.</li>
+          <li>Developed KPI and commission tracking with a dashboard, plus branch and staff management in React.</li>
+          <li>Fixed cross-domain cookie authentication and secured Socket.IO connections with access tokens.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Smart Sports Field Booking Platform</h3>
+          <span class="entry-date">May 2025 – Jul 2025</span>
+        </div>
+        <p class="entry-sub">Course Project (WDP301) · Team of 5 · <a href="https://github.com/WDP301-BKS">github.com/WDP301-BKS</a></p>
+        <p>A web app for booking sports fields, with separate flows for players and field owners.</p>
+        <p><span class="label">Role:</span> Full-stack Developer – set up both codebases; owned authentication, real-time chat, time slots, and deployment.</p>
+        <p><span class="label">Tech Stack:</span> Node.js, Express, PostgreSQL (Sequelize), Socket.IO, Redis, React, TypeScript, Tailwind CSS, Docker</p>
+        <p><span class="label">Key Contributions:</span></p>
+        <ul>
+          <li>Set up the Express + PostgreSQL backend and React + TypeScript frontend with JWT, Google OAuth, and email verification.</li>
+          <li>Built <strong>real-time chat and time-slot management</strong> with Socket.IO, including pricing rules and maintenance windows.</li>
+          <li>Added owner bookings, a revenue dashboard with peak hours, and PDF booking receipts.</li>
+          <li>Deployed with Docker, Nginx, PostgreSQL, and Redis, then moved to Render, Supabase, and Vercel.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===== EDUCATION ===== -->
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Bachelor of Software Engineering</h3>
+          <span class="entry-date">Sep 2021 – Dec 2025</span>
+        </div>
+        <p class="entry-sub">FPT University</p>
+        <p><span class="label">English:</span> Intermediate – technical documentation reading and day-to-day team communication.</p>
+      </article>
+    </section>
+
+  </main>
+
+  <script>
+    (function () {
+      var cv = document.querySelector(".cv");
+      var hint = document.getElementById("toolbarHint");
+      var editBtn = document.getElementById("editBtn");
+      var downloadBtn = document.getElementById("downloadBtn");
+      var resetBtn = document.getElementById("resetBtn");
+      var printBtn = document.getElementById("printBtn");
+
+      // Visitors only get "Download PDF"; resume.html?edit shows the editing tools.
+      var EDIT_MODE = /[?&]edit(=|&|$)/.test(location.search);
+
+      var HINT_VIEW = hint.textContent;
+      var HINT_EDIT = "Editing: click any text to change it. Press Enter in a bullet list to add a bullet. Changes are saved in this browser.";
+      var STORAGE_KEY = "cv-edits:" + location.pathname;
+
+      // Browser edits are kept only while the file's own content is unchanged,
+      // so editing the code later always wins over old browser edits.
+      var original = cv.innerHTML;
+      var originalSig = hash(original);
+
+      function hash(str) {
+        var h = 5381;
+        for (var i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) | 0;
+        return String(h);
+      }
+
+      // Keep link targets in sync with the edited link text.
+      function syncLinks() {
+        cv.querySelectorAll("a").forEach(function (a) {
+          var text = a.textContent.trim();
+          if (!text) return;
+          if (/^[^\s@\/]+@[^\s@\/]+$/.test(text)) a.href = "mailto:" + text;
+          else if (/^\+?[\d\s().-]{6,}$/.test(text)) a.href = "tel:" + text.replace(/[^\d+]/g, "");
+          else if (/^https?:\/\//i.test(text)) a.href = text;
+          else a.href = "https://" + text;
+        });
+      }
+
+      function load() {
+        try {
+          var saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (saved && saved.sig === originalSig && typeof saved.html === "string") {
+            cv.innerHTML = saved.html;
+            resetBtn.hidden = false;
+          }
+        } catch (e) {}
+      }
+
+      var saveTimer;
+      function save() {
+        syncLinks();
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ sig: originalSig, html: cv.innerHTML }));
+        } catch (e) {}
+        resetBtn.hidden = false;
+      }
+
+      function setEditing(on) {
+        if (on) cv.setAttribute("contenteditable", "true");
+        else cv.removeAttribute("contenteditable");
+        editBtn.textContent = on ? "Done editing" : "Edit content";
+        editBtn.setAttribute("aria-pressed", String(on));
+        hint.textContent = on ? HINT_EDIT : HINT_VIEW;
+      }
+
+      function download() {
+        syncLinks();
+        var parts = [];
+        document.childNodes.forEach(function (node) {
+          if (node.nodeType === Node.DOCUMENT_TYPE_NODE) parts.push("<!DOCTYPE html>");
+          else if (node.nodeType === Node.COMMENT_NODE) parts.push("<!--" + node.data + "-->");
+          else if (node.nodeType === Node.ELEMENT_NODE) {
+            var clone = node.cloneNode(true);
+            clone.querySelector(".cv").removeAttribute("contenteditable");
+            clone.querySelector("#editBtn").textContent = "Edit content";
+            clone.querySelector("#editBtn").setAttribute("aria-pressed", "false");
+            clone.querySelector("#toolbarHint").textContent = HINT_VIEW;
+            clone.querySelector("#resetBtn").hidden = true;
+            clone.querySelector("#editBtn").hidden = true;
+            clone.querySelector("#downloadBtn").hidden = true;
+            parts.push(clone.outerHTML);
+          }
+        });
+        var url = URL.createObjectURL(new Blob([parts.join("\n")], { type: "text/html" }));
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "cv-fullstack.html";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      }
+
+      editBtn.addEventListener("click", function () {
+        setEditing(!cv.isContentEditable);
+      });
+
+      cv.addEventListener("input", function () {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(save, 300);
+      });
+
+      // Paste as plain text so copied styles don't break the layout.
+      cv.addEventListener("paste", function (e) {
+        if (!cv.isContentEditable) return;
+        e.preventDefault();
+        document.execCommand("insertText", false, e.clipboardData.getData("text/plain"));
+      });
+
+      resetBtn.addEventListener("click", function () {
+        if (!confirm("Discard all edits made in the browser and restore the original CV?")) return;
+        cv.innerHTML = original;
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        resetBtn.hidden = true;
+      });
+
+      printBtn.addEventListener("click", function () { window.print(); });
+      window.addEventListener("beforeprint", syncLinks);
+
+      if (EDIT_MODE) {
+        editBtn.hidden = false;
+        downloadBtn.hidden = false;
+        downloadBtn.addEventListener("click", download);
+        load();
+      }
+    })();
+  </script>
+</body>
+</html>

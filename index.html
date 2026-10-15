@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<!--
+  PORTFOLIO — Hoang Hieu Linh (single file: HTML + CSS + a little JS, no build step)
+
+  HOW TO EDIT
+  - All content lives in <main>. Each section starts with a marker comment such as
+    ===== PROJECTS =====  so it is easy to find.
+  - Colors and fonts: the :root variables at the top of <style> (dark theme tokens right below).
+  - The Resume buttons open resume.html (the HTML resume, which has its own "Download PDF" button).
+  - Scope labels on AntBuddy highlights: scope-owner / scope-co / scope-main / scope-contrib.
+
+  DEPLOY
+  - Upload this folder as-is to GitHub Pages, Vercel, or Netlify.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hoang Hieu Linh – Full-stack Developer</title>
+  <meta name="description" content="Portfolio of Hoang Hieu Linh, a junior full-stack developer in Da Nang working with Node.js, TypeScript, and React/Next.js.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hoang Hieu Linh – Full-stack Developer">
+  <meta property="og:description" content="Multi-tenant SaaS, payment, and real-time features with Node.js, TypeScript, and React/Next.js.">
+  <meta name="theme-color" content="#1e3a5f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e3a5f'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='white'%3EHL%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Apply the saved theme before first paint to avoid a flash -->
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light" || savedTheme === "dark") document.documentElement.setAttribute("data-theme", savedTheme);
+    } catch (e) {}
+  </script>
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --surface-2: #eef2f7;
+      --ink: #131a24;          /* headings */
+      --text: #2f3640;         /* body text */
+      --muted: #5b6472;        /* secondary text */
+      --line: #e2e7ee;
+      --accent: #1e3a5f;       /* navy, same as the CV */
+      --accent-hover: #152b47;
+      --accent-contrast: #ffffff;
+      --accent-soft: #e7eef7;
+      --accent-text: #1e3a5f;
+      --brand: #1e3a5f;        /* contact card background */
+      --brand-text: #ffffff;
+      --code-bg: #0f1722;
+      --code-text: #d6deea;
+      --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 8px 24px rgba(16, 24, 40, .06);
+      --radius: 14px;
+      --font: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0d1218;
+        --surface: #141b24;
+        --surface-2: #1a2330;
+        --ink: #f1f4f8;
+        --text: #c7cfda;
+        --muted: #8b97a7;
+        --line: #243042;
+        --accent: #8db4e6;
+        --accent-hover: #a9c7ee;
+        --accent-contrast: #0d1218;
+        --accent-soft: #1a2738;
+        --accent-text: #9fc1ec;
+        --brand: #172b45;
+        --brand-text: #f1f4f8;
+        --code-bg: #0a0f15;
+        --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+        color-scheme: dark;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0d1218;
+      --surface: #141b24;
+      --surface-2: #1a2330;
+      --ink: #f1f4f8;
+      --text: #c7cfda;
+      --muted: #8b97a7;
+      --line: #243042;
+      --accent: #8db4e6;
+      --accent-hover: #a9c7ee;
+      --accent-contrast: #0d1218;
+      --accent-soft: #1a2738;
+      --accent-text: #9fc1ec;
+      --brand: #172b45;
+      --brand-text: #f1f4f8;
+      --code-bg: #0a0f15;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+      color-scheme: dark;
+    }
+
+    /* ---------- Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 16px/1.65 var(--font);
+      transition: background-color .2s ease, color .2s ease;
+    }
+
+    h1, h2, h3, h4, p, ul, dl, dd { margin: 0; }
+
+    a { color: var(--accent-text); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    .container { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      flex: none;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .icon-fill { fill: currentColor; stroke: none; }
+
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: -48px;
+      z-index: 50;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-weight: 600;
+    }
+    .skip-link:focus { top: 12px; }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      -webkit-backdrop-filter: saturate(1.4) blur(10px);
+      backdrop-filter: saturate(1.4) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s ease;
+    }
+    .site-header.scrolled { border-bottom-color: var(--line); }
+
+    .nav {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      height: 64px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink); }
+    .brand:hover { text-decoration: none; }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; padding: 0; }
+    .nav-links a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); background: var(--surface-2); text-decoration: none; }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+
+    .icon-btn {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .icon-btn:hover { border-color: var(--muted); }
+
+    .menu-btn { display: none; }
+    .nav-resume-mobile { display: none; }
+
+    .theme-icon-sun { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-icon-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-icon-moon { display: none; }
+    }
+    :root[data-theme="dark"] .theme-icon-sun { display: block; }
+    :root[data-theme="dark"] .theme-icon-moon { display: none; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 18px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font: 600 15px/1 var(--font);
+      cursor: pointer;
+      transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+    }
+    .btn:hover { text-decoration: none; }
+    .btn-sm { height: 40px; padding: 0 14px; font-size: 14px; }
+
+    .btn-primary { background: var(--accent); color: var(--accent-contrast); }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    .btn-ghost { background: var(--surface); color: var(--ink); border-color: var(--line); }
+    .btn-ghost:hover { border-color: var(--muted); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 72px 0 64px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      color: var(--ink);
+      font-size: clamp(2.3rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+    }
+    .hero h1 .accent { color: var(--accent-text); }
+
+    .hero-lead { max-width: 34em; margin-top: 20px; font-size: clamp(1.05rem, 1.6vw, 1.18rem); }
+
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+    .hero-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 22px; font-size: 15px; }
+    .hero-links a { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); }
+    .hero-links a:hover { color: var(--ink); }
+
+    .hero-photo { justify-self: end; width: 100%; max-width: 420px; margin: 0; }
+    .hero-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: 50% 30%;
+      border-radius: 20px;
+      background: var(--surface-2);
+      box-shadow: var(--shadow);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+      list-style: none;
+      padding: 0;
+    }
+    .stat {
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .stat-value { color: var(--ink); font-size: 1.7rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; }
+    .stat-label { margin-top: 6px; color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+
+    /* ---------- Sections ---------- */
+    .section { padding: 80px 0; border-top: 1px solid var(--line); scroll-margin-top: 64px; }
+
+    .section-head { max-width: 44em; margin-bottom: 36px; }
+    .kicker { color: var(--accent-text); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .section-title {
+      margin-top: 6px;
+      color: var(--ink);
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      line-height: 1.2;
+      letter-spacing: -.02em;
+    }
+    .section-intro { margin-top: 12px; color: var(--muted); }
+
+    .card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .list { padding-left: 20px; }
+    .list li + li { margin-top: 8px; }
+    .list li::marker { color: var(--accent-text); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; }
+    .chip {
+      padding: 4px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    /* ---------- About ---------- */
+    .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: start; }
+    .about-text p + p { margin-top: 16px; }
+
+    .facts { padding: 6px 24px; }
+    .facts div { display: grid; grid-template-columns: 7.5em 1fr; gap: 12px; padding: 14px 0; }
+    .facts div + div { border-top: 1px solid var(--line); }
+    .facts dt { color: var(--muted); font-size: 14px; }
+    .facts dd { color: var(--ink); font-size: 15px; font-weight: 500; }
+
+    /* ---------- Experience ---------- */
+    .job + .job { margin-top: 24px; }
+
+    .job-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 24px; }
+    .job-title { color: var(--ink); font-size: 1.25rem; letter-spacing: -.01em; }
+    .job-company { margin-top: 2px; color: var(--muted); font-size: 15px; }
+    .job-date { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .job-summary { margin-top: 14px; }
+
+    .scope-note { margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+      list-style: none;
+      padding: 0;
+    }
+    .highlight { padding: 18px 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+    .highlight-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .highlight h4 { color: var(--ink); font-size: 16px; }
+    .highlight p { margin-top: 6px; font-size: 15px; }
+    .highlight strong { color: var(--ink); font-weight: 600; }
+
+    .scope {
+      flex: none;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.7;
+      white-space: nowrap;
+    }
+    .scope-owner { background: var(--accent); color: var(--accent-contrast); }
+    .scope-main { background: var(--accent-soft); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent-text); }
+    .scope-co { background: var(--accent-soft); color: var(--accent-text); }
+    .scope-contrib { background: var(--surface-2); color: var(--muted); }
+
+    .job .list, .job .chips { margin-top: 18px; }
+
+    /* ---------- Projects ---------- */
+    .project { display: grid; grid-template-columns: 1.55fr 1fr; gap: 36px; }
+    .project + .project { margin-top: 24px; }
+
+    .project-meta { color: var(--muted); font-size: 14px; }
+    .project h3 { margin-top: 6px; color: var(--ink); font-size: 1.4rem; letter-spacing: -.01em; }
+    .project-desc { margin-top: 10px; }
+    .project .list { margin-top: 18px; }
+
+    .challenge {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      background: var(--accent-soft);
+      font-size: 15px;
+    }
+    .challenge strong { color: var(--ink); }
+
+    .project-aside { display: flex; flex-direction: column; gap: 22px; padding-left: 32px; border-left: 1px solid var(--line); }
+    .aside-label { margin-bottom: 8px; color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+    .aside-text { color: var(--ink); font-size: 15px; }
+    .project-links { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* ---------- Skills ---------- */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .skill-group { padding: 22px 24px; box-shadow: none; }
+    .skill-group h3 { margin-bottom: 14px; color: var(--ink); font-size: 16px; }
+
+    .education { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; margin-top: 16px; box-shadow: none; }
+    .education h3 { color: var(--ink); font-size: 16px; }
+    .education p { color: var(--muted); font-size: 15px; }
+
+    /* ---------- Contact ---------- */
+    .contact-card {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 48px;
+      border-radius: 20px;
+      background: var(--brand);
+      color: var(--brand-text);
+    }
+    .contact-card .kicker { color: inherit; opacity: .75; }
+    .contact-card h2 { margin-top: 6px; color: inherit; font-size: clamp(1.7rem, 3.2vw, 2.3rem); line-height: 1.2; letter-spacing: -.02em; }
+    .contact-card p { margin-top: 12px; opacity: .85; }
+    .contact-card .hero-cta { margin-top: 24px; }
+    .contact-card .btn-primary { background: #ffffff; color: #1e3a5f; }
+    .contact-card .btn-primary:hover { background: #e7eef7; }
+    .contact-card .btn-ghost { background: transparent; color: inherit; border-color: rgba(255, 255, 255, .35); }
+    .contact-card .btn-ghost:hover { border-color: rgba(255, 255, 255, .7); }
+
+    .contact-list { list-style: none; padding: 0; }
+    .contact-list li + li { border-top: 1px solid rgba(255, 255, 255, .14); }
+    .contact-list a, .contact-list span {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      color: inherit;
+      overflow-wrap: anywhere;
+    }
+
+    .site-footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
+    .site-footer .container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 920px) {
+      .hero-grid, .about-grid, .project, .contact-card { grid-template-columns: 1fr; }
+      .hero-grid { gap: 40px; }
+      .hero-photo { justify-self: start; }
+      .project-aside { padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+    }
+
+    @media (max-width: 760px) {
+      .menu-btn { display: grid; }
+      .nav-resume { display: none; }
+      .nav-resume-mobile { display: block; }
+
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 8px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 14px; font-size: 16px; }
+
+      .hero { padding: 48px 0 48px; }
+      .stats, .highlights { grid-template-columns: 1fr; }
+      .stats { margin-top: 40px; }
+      .section { padding: 56px 0; }
+      .card { padding: 22px; }
+      .contact-card { padding: 28px 22px; gap: 24px; }
+      .hero-photo { max-width: 360px; }
+      .facts div { grid-template-columns: 6.5em 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">HL</span>
+        <span>Hoang Hieu Linh</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="nav-resume-mobile"><a href="resume.html">Resume</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a class="btn btn-ghost btn-sm nav-resume" href="resume.html">Resume</a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch theme">
+          <svg class="icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+          <svg class="icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="top">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Da Nang, Vietnam · Junior Full-stack Developer
+            </p>
+            <h1>Hi, I'm Hoang Hieu Linh.<br><span class="accent">I build SaaS, payment, and real-time features.</span></h1>
+            <p class="hero-lead">
+              I work with Node.js, TypeScript, and React/Next.js across multi-tenant SaaS CRM, checkout and billing,
+              and real-time apps. Currently a Full Stack Engineer at AntBuddy.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#projects">
+                View projects
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+              <a class="btn btn-ghost" href="resume.html">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+                View resume
+              </a>
+            </div>
+            <div class="hero-links">
+              <a href="https://github.com/LinhHH10-IT" target="_blank" rel="noopener">
+                <svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                github.com/LinhHH10-IT
+              </a>
+              <a href="mailto:hoanghieulinh362@gmail.com">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+                hoanghieulinh362@gmail.com
+              </a>
+            </div>
+          </div>
+
+          <figure class="hero-photo">
+            <img src="linh.jpg" width="1000" height="1500"
+                 alt="Hoang Hieu Linh in a white shirt with an FPT University graduation sash">
+          </figure>
+        </div>
+
+        <ul class="stats">
+          <li class="stat">
+            <div class="stat-value">60+</div>
+            <div class="stat-label">performance-audit items fixed across 4 production services</div>
+          </li>
+          <li class="stat">
+            <div class="stat-value">14 → 2</div>
+            <div class="stat-label">database round-trips per dashboard load after a <code>$facet</code> rewrite</div>
+          </li>
+          <li class="stat">
+            <div class="stat-value">2</div>
+            <div class="stat-label">team projects where I set up the codebase and the CI/CD or deployment</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker">About</p>
+          <h2 class="section-title">A bit about me</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              I'm a junior full-stack developer based in Da Nang. Since March 2026 I've worked as a Full Stack Engineer
+              at AntBuddy, building features across a multi-tenant SaaS CRM, an omnichannel messaging platform,
+              a Next.js checkout portal, and a billing service.
+            </p>
+            <p>
+              Most of my work sits on the backend — payment flows, billing, access control, and performance — but I
+              also build the UI for the features I ship, from AngularJS screens to React and Next.js pages.
+            </p>
+            <p>
+              I studied Software Engineering at FPT University (2021–2025) and interned at FPT Software as a Java
+              developer, where I learned to work in an Agile/Scrum team.
+            </p>
+          </div>
+          <dl class="card facts">
+            <div><dt>Location</dt><dd>Da Nang, Vietnam</dd></div>
+            <div><dt>Current role</dt><dd>Full Stack Engineer, AntBuddy</dd></div>
+            <div><dt>Focus</dt><dd>Node.js · TypeScript · React/Next.js</dd></div>
+            <div><dt>Education</dt><dd>Bachelor of Software Engineering, FPT University</dd></div>
+            <div><dt>English</dt><dd>Intermediate</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section class="section" id="experience">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker">Experience</p>
+          <h2 class="section-title">Where I've worked</h2>
+        </div>
+
+        <article class="card job">
+          <div class="job-head">
+            <div>
+              <h3 class="job-title">Full Stack Engineer</h3>
+              <p class="job-company">AntBuddy.com · Da Nang, Vietnam</p>
+            </div>
+            <span class="job-date">Mar 2026 – Present</span>
+          </div>
+          <p class="job-summary">
+            Feature work and production fixes across a multi-tenant SaaS CRM, an omnichannel messaging platform,
+            a Next.js + Payload CMS checkout portal, and a Django billing service.
+          </p>
+          <p class="scope-note">Labels show my part: Owner, Co-developer (with one teammate), Main contributor, or Contributor.</p>
+          <ul class="highlights">
+            <li class="highlight">
+              <div class="highlight-head"><h4>Checkout payments</h4><span class="scope scope-owner">Owner</span></div>
+              <p>VietQR and Stripe checkout, wallet top-ups, and idempotent payment webhooks with auto-expiring QR codes.</p>
+            </li>
+            <li class="highlight">
+              <div class="highlight-head"><h4>Wallet-credit billing</h4><span class="scope scope-owner">Owner</span></div>
+              <p>Plans paid from wallet credit with idempotency and refunds, plus wallet amounts and order codes in CRM payment history.</p>
+            </li>
+            <li class="highlight">
+              <div class="highlight-head"><h4>Multi-tenant access control</h4><span class="scope scope-co">Co-developer</span></div>
+              <p>Organization-level data isolation, dynamic RBAC, and Keycloak SSO with organization claims.</p>
+            </li>
+            <li class="highlight">
+              <div class="highlight-head"><h4>Performance audit</h4><span class="scope scope-main">Main contributor</span></div>
+              <p>Fixed <strong>60+ audit items</strong> across 4 services: MongoDB indexes, N+1 queries, caching, and Redis locks. Dashboard DB round-trips per load went <strong>from 14 to 2</strong>.</p>
+            </li>
+            <li class="highlight">
+              <div class="highlight-head"><h4>Onboarding coach marks</h4><span class="scope scope-co">Co-developer</span></div>
+              <p>Welcome popup, onboarding hub, progress-tracking APIs, and automatic hand-off to Sales for new SaaS users.</p>
+            </li>
+            <li class="highlight">
+              <div class="highlight-head"><h4>Omnichannel CRM</h4><span class="scope scope-contrib">Contributor</span></div>
+              <p>WhatsApp Business features (Flows in templates, template variables, Embedded Signup) and SLA-breach ticket automation.</p>
+            </li>
+          </ul>
+          <ul class="chips" aria-label="Technologies used at AntBuddy">
+            <li class="chip">Node.js</li><li class="chip">TypeScript</li><li class="chip">Express</li>
+            <li class="chip">MongoDB</li><li class="chip">Redis</li><li class="chip">Bull</li>
+            <li class="chip">AngularJS</li><li class="chip">Next.js</li><li class="chip">Payload CMS</li>
+            <li class="chip">PostgreSQL</li><li class="chip">Django</li><li class="chip">Keycloak</li>
+            <li class="chip">Playwright</li>
+          </ul>
+        </article>
+
+        <article class="card job">
+          <div class="job-head">
+            <div>
+              <h3 class="job-title">Full-stack Developer Intern</h3>
+              <p class="job-company">FPT Software · Da Nang, Vietnam</p>
+            </div>
+            <span class="job-date">Sep 2024 – Dec 2024</span>
+          </div>
+          <ul class="list">
+            <li>Interned as a Java Developer, contributing to backend development and maintenance using Java and Spring Boot.</li>
+            <li>Assisted in building user interfaces with React.</li>
+            <li>Gained valuable hands-on experience and practical knowledge from my mentor, improving my coding skills, teamwork, and understanding of software development processes following Agile/Scrum methodology.</li>
+          </ul>
+          <ul class="chips" aria-label="Technologies used at FPT Software">
+            <li class="chip">Java</li><li class="chip">Spring Boot</li><li class="chip">React</li><li class="chip">Agile/Scrum</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker">Projects</p>
+          <h2 class="section-title">Team projects</h2>
+          <p class="section-intro">Both were built by five-person teams. The lists below cover only the parts I did myself.</p>
+        </div>
+
+        <article class="card project">
+          <div>
+            <p class="project-meta">Graduation Project · Team of 5 · Jul – Dec 2025</p>
+            <h3>Smart Gym Management System</h3>
+            <p class="project-desc">A multi-branch gym management platform for owners, staff, personal trainers, and members.</p>
+            <ul class="list">
+              <li>Set up the Express + MongoDB backend with JWT authentication, role-based permissions, and Jest tests.</li>
+              <li>Built CI/CD with GitHub Actions, Docker Hub, Nginx behind Cloudflare, and SonarCloud quality checks.</li>
+              <li>Implemented work shifts, auto-scheduling, and time-off requests with real-time Socket.IO notifications.</li>
+              <li>Developed KPI and commission tracking with a dashboard, plus branch and staff management in React.</li>
+            </ul>
+            <p class="challenge">
+              <strong>Challenge:</strong> the frontend and API ran on different domains, so cookie-based login needed
+              cross-domain cookie settings. I fixed that setup and moved Socket.IO authentication to access tokens.
+            </p>
+          </div>
+          <aside class="project-aside">
+            <div>
+              <p class="aside-label">My role</p>
+              <p class="aside-text">Full-stack Developer – set up the backend and CI/CD; owned the staff scheduling and KPI modules.</p>
+            </div>
+            <div>
+              <p class="aside-label">Stack</p>
+              <ul class="chips">
+                <li class="chip">Node.js</li><li class="chip">Express</li><li class="chip">MongoDB</li>
+                <li class="chip">Socket.IO</li><li class="chip">Redis</li><li class="chip">React</li>
+                <li class="chip">TypeScript</li><li class="chip">Tailwind CSS</li><li class="chip">Docker</li>
+                <li class="chip">GitHub Actions</li><li class="chip">SonarCloud</li><li class="chip">Jest</li>
+              </ul>
+            </div>
+            <div class="project-links">
+              <a class="btn btn-ghost btn-sm" href="https://github.com/SGMS-2025" target="_blank" rel="noopener">
+                <svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                View on GitHub
+              </a>
+            </div>
+          </aside>
+        </article>
+
+        <article class="card project">
+          <div>
+            <p class="project-meta">Course Project (WDP301) · Team of 5 · May – Jul 2025</p>
+            <h3>Smart Sports Field Booking Platform</h3>
+            <p class="project-desc">A web app for booking sports fields, with separate flows for players and field owners.</p>
+            <ul class="list">
+              <li>Set up the Express + PostgreSQL backend and React + TypeScript frontend with JWT, Google OAuth, and email verification.</li>
+              <li>Built real-time chat and time-slot management with Socket.IO, including pricing rules and maintenance windows.</li>
+              <li>Added owner bookings, a revenue dashboard with peak hours, and PDF booking receipts.</li>
+              <li>Deployed with Docker, Nginx, PostgreSQL, and Redis, then moved to Render, Supabase, and Vercel.</li>
+            </ul>
+          </div>
+          <aside class="project-aside">
+            <div>
+              <p class="aside-label">My role</p>
+              <p class="aside-text">Full-stack Developer – set up both codebases; owned authentication, real-time chat, time slots, and deployment.</p>
+            </div>
+            <div>
+              <p class="aside-label">Stack</p>
+              <ul class="chips">
+                <li class="chip">Node.js</li><li class="chip">Express</li><li class="chip">PostgreSQL</li>
+                <li class="chip">Sequelize</li><li class="chip">Socket.IO</li><li class="chip">Redis</li>
+                <li class="chip">React</li><li class="chip">TypeScript</li><li class="chip">Tailwind CSS</li>
+                <li class="chip">Docker</li>
+              </ul>
+            </div>
+            <div class="project-links">
+              <a class="btn btn-ghost btn-sm" href="https://github.com/WDP301-BKS" target="_blank" rel="noopener">
+                <svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                View on GitHub
+              </a>
+            </div>
+          </aside>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS & EDUCATION ===== -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker">Skills</p>
+          <h2 class="section-title">What I work with</h2>
+        </div>
+        <div class="skills-grid">
+          <div class="card skill-group">
+            <h3>Core</h3>
+            <ul class="chips">
+              <li class="chip">TypeScript</li><li class="chip">JavaScript</li><li class="chip">Node.js</li>
+              <li class="chip">Express.js</li><li class="chip">React</li><li class="chip">Next.js</li>
+              <li class="chip">Tailwind CSS</li>
+            </ul>
+          </div>
+          <div class="card skill-group">
+            <h3>Databases</h3>
+            <ul class="chips">
+              <li class="chip">MongoDB (Mongoose)</li><li class="chip">PostgreSQL</li><li class="chip">Redis</li><li class="chip">MySQL</li>
+            </ul>
+          </div>
+          <div class="card skill-group">
+            <h3>Integrations</h3>
+            <ul class="chips">
+              <li class="chip">REST APIs</li><li class="chip">Socket.IO</li><li class="chip">Bull queues</li>
+              <li class="chip">Payload CMS</li><li class="chip">Keycloak SSO</li><li class="chip">VietQR</li>
+              <li class="chip">Stripe</li><li class="chip">Webhooks</li>
+            </ul>
+          </div>
+          <div class="card skill-group">
+            <h3>DevOps &amp; Testing</h3>
+            <ul class="chips">
+              <li class="chip">Docker</li><li class="chip">Nginx</li><li class="chip">GitHub Actions</li>
+              <li class="chip">AWS EC2/S3</li><li class="chip">SonarCloud</li><li class="chip">Jest</li>
+              <li class="chip">Vitest</li><li class="chip">Playwright</li>
+            </ul>
+          </div>
+          <div class="card skill-group">
+            <h3>Also familiar</h3>
+            <ul class="chips">
+              <li class="chip">AngularJS</li><li class="chip">Java (Spring Boot)</li>
+              <li class="chip">Python (Django)</li><li class="chip">React Native</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card education">
+          <div>
+            <h3>Bachelor of Software Engineering · FPT University</h3>
+            <p>English: Intermediate – technical documentation reading and day-to-day team communication.</p>
+          </div>
+          <span class="job-date">Sep 2021 – Dec 2025</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div>
+            <p class="kicker">Contact</p>
+            <h2>Let's talk.</h2>
+            <p>Have a role or a project in mind? Send me an email.</p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="mailto:hoanghieulinh362@gmail.com">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+                Email me
+              </a>
+              <a class="btn btn-ghost" href="resume.html">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+                View resume
+              </a>
+            </div>
+          </div>
+          <ul class="contact-list">
+            <li>
+              <a href="mailto:hoanghieulinh362@gmail.com">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+                hoanghieulinh362@gmail.com
+              </a>
+            </li>
+            <li>
+              <a href="tel:+84944128089">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+                +84 944 128 089
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/LinhHH10-IT" target="_blank" rel="noopener">
+                <svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                github.com/LinhHH10-IT
+              </a>
+            </li>
+            <li>
+              <span>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Da Nang, Vietnam
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span id="year">2026</span> Hoang Hieu Linh</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+
+      // Theme toggle: explicit choice is saved; otherwise follow the OS setting.
+      var themeBtn = document.getElementById("themeToggle");
+      function currentTheme() {
+        var t = root.getAttribute("data-theme");
+        if (t) return t;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      function syncThemeButton() {
+        var dark = currentTheme() === "dark";
+        themeBtn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+      }
+      themeBtn.addEventListener("click", function () {
+        var next = currentTheme() === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        syncThemeButton();
+      });
+      syncThemeButton();
+
+      // Mobile menu
+      var menuBtn = document.getElementById("menuToggle");
+      var navLinks = document.getElementById("navLinks");
+      function setMenu(open) {
+        navLinks.classList.toggle("open", open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      }
+      menuBtn.addEventListener("click", function () { setMenu(!navLinks.classList.contains("open")); });
+      navLinks.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") setMenu(false); });
+
+      // Header border once the page scrolls
+      var header = document.querySelector(".site-header");
+      function onScroll() { header.classList.toggle("scrolled", window.scrollY > 8); }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      // Highlight the nav link of the section in view
+      if ("IntersectionObserver" in window) {
+        var links = {};
+        navLinks.querySelectorAll('a[href^="#"]').forEach(function (a) { links[a.getAttribute("href").slice(1)] = a; });
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            Object.keys(links).forEach(function (id) { links[id].classList.toggle("active", id === entry.target.id); });
+          });
+        }, { rootMargin: "-45% 0px -50% 0px" });
+        Object.keys(links).forEach(function (id) {
+          var section = document.getElementById(id);
+          if (section) observer.observe(section);
+        });
+      }
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
