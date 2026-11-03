@@ -339,7 +339,7 @@
       <h2 class="section-title">Professional Summary</h2>
       <p>
         Junior Full-stack Developer focused on <strong>Node.js, TypeScript, and React/Next.js</strong>, building multi-tenant
-        SaaS CRM and payment features with MongoDB, PostgreSQL, and Redis. Comfortable debugging production issues,
+        SaaS CRM, payment, and booking features with MongoDB, PostgreSQL, and Redis. Comfortable debugging production issues,
         improving performance, and integrating payment and messaging services.
       </p>
     </section>
@@ -355,10 +355,10 @@
         <dd>MongoDB (Mongoose), PostgreSQL, Redis, MySQL</dd>
 
         <dt>Integrations</dt>
-        <dd>REST APIs, Socket.IO, Bull queues, Payload CMS, Keycloak SSO, VietQR, Stripe, webhooks</dd>
+        <dd>REST APIs, Socket.IO, Bull queues, Payload CMS, Keycloak SSO, VietQR, Stripe, webhooks, Odoo API</dd>
 
         <dt>DevOps &amp; Testing</dt>
-        <dd>Docker, Nginx, GitHub Actions, AWS EC2/S3, SonarCloud, Jest, Vitest, Playwright</dd>
+        <dd>Docker, Nginx, GitHub Actions, PM2, AWS EC2/S3, SonarCloud, Jest, Vitest, Playwright</dd>
 
         <dt>Also familiar</dt>
         <dd>AngularJS, Java (Spring Boot), Python (Django), React Native</dd>
@@ -376,10 +376,12 @@
         </div>
         <p class="entry-sub">AntBuddy.com · Da Nang, Vietnam</p>
         <ul>
+          <li><strong>Built a clinic booking site on Odoo HMS</strong> as a Payload CMS block: a 3-step flow with live services, doctors, and time slots from the Odoo API, WhatsApp OTP before booking, and idempotent bookings mirrored into the CMS admin.</li>
           <li><strong>Owned the payment flows</strong> of a Next.js + Payload CMS checkout portal: VietQR and Stripe checkout, wallet top-ups, and idempotent payment webhooks with auto-expiring QR codes.</li>
           <li>Extended the Django billing service so plans can be <strong>paid from wallet credit with idempotency and refunds</strong>, and showed wallet amounts and order codes in CRM payment history.</li>
           <li><strong>Co-developed multi-tenant access control</strong> with a teammate: organization-level data isolation, dynamic RBAC, and Keycloak SSO with organization claims.</li>
           <li>Fixed <strong>60+ performance-audit items</strong> across 4 services (MongoDB indexes, N+1 queries, caching, Redis locks); cut dashboard DB round-trips per page load <strong>from 14 to 2</strong>.</li>
+          <li>Upgraded a Next.js service from <strong>Node 22 to Node 24 LTS</strong> (Docker, CI, PM2, deploy script) and rolled it out to staging and to production on Kubernetes.</li>
           <li>Built the <strong>onboarding coach-mark feature</strong> for new SaaS users with one teammate: welcome popup, onboarding hub, progress-tracking APIs, and automatic hand-off to Sales.</li>
           <li>Contributed WhatsApp Business features (Flows in templates, template variables, Embedded Signup) and <strong>SLA-breach ticket automation</strong> to the omnichannel CRM.</li>
         </ul>

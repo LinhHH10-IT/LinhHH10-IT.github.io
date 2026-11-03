@@ -20,7 +20,7 @@
   <meta name="description" content="Portfolio of Hoang Hieu Linh, a junior full-stack developer in Da Nang working with Node.js, TypeScript, and React/Next.js.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Hoang Hieu Linh – Full-stack Developer">
-  <meta property="og:description" content="Multi-tenant SaaS, payment, and real-time features with Node.js, TypeScript, and React/Next.js.">
+  <meta property="og:description" content="Multi-tenant SaaS, payment, booking, and real-time features with Node.js, TypeScript, and React/Next.js.">
   <meta name="theme-color" content="#1e3a5f">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e3a5f'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='white'%3EHL%3C/text%3E%3C/svg%3E">
 
@@ -563,7 +563,7 @@
             <h1>Hi, I'm Hoang Hieu Linh.<br><span class="accent">I build SaaS, payment, and real-time features.</span></h1>
             <p class="hero-lead">
               I work with Node.js, TypeScript, and React/Next.js across multi-tenant SaaS CRM, checkout and billing,
-              and real-time apps. Currently a Full Stack Engineer at AntBuddy.
+              online booking, and real-time apps. Currently a Full Stack Engineer at AntBuddy.
             </p>
             <div class="hero-cta">
               <a class="btn btn-primary" href="#projects">
@@ -622,7 +622,7 @@
             <p>
               I'm a junior full-stack developer based in Da Nang. Since March 2026 I've worked as a Full Stack Engineer
               at AntBuddy, building features across a multi-tenant SaaS CRM, an omnichannel messaging platform,
-              a Next.js checkout portal, and a billing service.
+              a Next.js checkout portal, a billing service, and a clinic booking site connected to Odoo.
             </p>
             <p>
               Most of my work sits on the backend — payment flows, billing, access control, and performance — but I
@@ -662,10 +662,14 @@
           </div>
           <p class="job-summary">
             Feature work and production fixes across a multi-tenant SaaS CRM, an omnichannel messaging platform,
-            a Next.js + Payload CMS checkout portal, and a Django billing service.
+            a Next.js + Payload CMS checkout portal, a Django billing service, and a clinic booking site on Odoo HMS.
           </p>
           <p class="scope-note">Labels show my part: Owner, Co-developer (with one teammate), Main contributor, or Contributor.</p>
           <ul class="highlights">
+            <li class="highlight">
+              <div class="highlight-head"><h4>Clinic booking on Odoo HMS</h4><span class="scope scope-owner">Owner</span></div>
+              <p>A 3-step booking flow (services → time → confirmation) built as a Payload CMS block, with live services, doctors, and time slots from the Odoo API, <strong>WhatsApp OTP</strong> before booking, and idempotent bookings mirrored into the CMS admin.</p>
+            </li>
             <li class="highlight">
               <div class="highlight-head"><h4>Checkout payments</h4><span class="scope scope-owner">Owner</span></div>
               <p>VietQR and Stripe checkout, wallet top-ups, and idempotent payment webhooks with auto-expiring QR codes.</p>
@@ -683,6 +687,10 @@
               <p>Fixed <strong>60+ audit items</strong> across 4 services: MongoDB indexes, N+1 queries, caching, and Redis locks. Dashboard DB round-trips per load went <strong>from 14 to 2</strong>.</p>
             </li>
             <li class="highlight">
+              <div class="highlight-head"><h4>Node.js 24 upgrade</h4><span class="scope scope-owner">Owner</span></div>
+              <p>Moved a Next.js + Payload service from <strong>Node 22 to Node 24 LTS</strong> across Docker, CI, PM2, and the deploy script, then rolled it out to staging and to production on Kubernetes.</p>
+            </li>
+            <li class="highlight">
               <div class="highlight-head"><h4>Onboarding coach marks</h4><span class="scope scope-co">Co-developer</span></div>
               <p>Welcome popup, onboarding hub, progress-tracking APIs, and automatic hand-off to Sales for new SaaS users.</p>
             </li>
@@ -696,6 +704,7 @@
             <li class="chip">MongoDB</li><li class="chip">Redis</li><li class="chip">Bull</li>
             <li class="chip">AngularJS</li><li class="chip">Next.js</li><li class="chip">Payload CMS</li>
             <li class="chip">PostgreSQL</li><li class="chip">Django</li><li class="chip">Keycloak</li>
+            <li class="chip">Odoo</li><li class="chip">Docker</li><li class="chip">Vitest</li>
             <li class="chip">Playwright</li>
           </ul>
         </article>
@@ -832,14 +841,14 @@
             <ul class="chips">
               <li class="chip">REST APIs</li><li class="chip">Socket.IO</li><li class="chip">Bull queues</li>
               <li class="chip">Payload CMS</li><li class="chip">Keycloak SSO</li><li class="chip">VietQR</li>
-              <li class="chip">Stripe</li><li class="chip">Webhooks</li>
+              <li class="chip">Stripe</li><li class="chip">Webhooks</li><li class="chip">Odoo API</li>
             </ul>
           </div>
           <div class="card skill-group">
             <h3>DevOps &amp; Testing</h3>
             <ul class="chips">
               <li class="chip">Docker</li><li class="chip">Nginx</li><li class="chip">GitHub Actions</li>
-              <li class="chip">AWS EC2/S3</li><li class="chip">SonarCloud</li><li class="chip">Jest</li>
+              <li class="chip">PM2</li><li class="chip">AWS EC2/S3</li><li class="chip">SonarCloud</li><li class="chip">Jest</li>
               <li class="chip">Vitest</li><li class="chip">Playwright</li>
             </ul>
           </div>
